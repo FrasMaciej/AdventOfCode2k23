@@ -4,7 +4,7 @@ using Microsoft.VisualBasic.FileIO;
 namespace AdventOfCode.Solutions.Solutions2k22.Day1;
 using System.Linq;
 
-public class Day1 : FileReader
+public class Day1 : Utilities
 {
     private IList<string> _input;
     public Day1()
