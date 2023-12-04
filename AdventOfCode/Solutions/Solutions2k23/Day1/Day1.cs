@@ -42,4 +42,3 @@ public class Day1 : Utilities
         return GetInputAsStringList("input_1_2k23.txt");
     }
 }
-
