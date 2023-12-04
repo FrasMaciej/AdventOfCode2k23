@@ -1,6 +1,3 @@
-using System.Runtime.InteropServices.ComTypes;
-using Microsoft.VisualBasic.FileIO;
-
 namespace AdventOfCode.Solutions.Solutions2k23.Day3;
 
 public class Day3 : Utilities

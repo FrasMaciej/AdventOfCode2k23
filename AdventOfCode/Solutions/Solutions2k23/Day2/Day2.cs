@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices.JavaScript;
-
 namespace AdventOfCode.Solutions.Solutions2k23.Day2;
 
 public class Day2 : Utilities
