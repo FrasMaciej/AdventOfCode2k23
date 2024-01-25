@@ -14,7 +14,7 @@ public class Day2 : Utilities
             bool isPossible = true;
             foreach (var pick in picks)
             {
-                if (!isPickPossible(pick))
+                if (!IsPickPossible(pick))
                 {
                     isPossible = false;
                 }
@@ -28,7 +28,7 @@ public class Day2 : Utilities
         Console.WriteLine(sum);
     }
     
-    private bool isPickPossible(string pick)
+    private static bool IsPickPossible(string pick)
     {
         string[] choices = pick.Split(',');
         foreach (var choice in choices)

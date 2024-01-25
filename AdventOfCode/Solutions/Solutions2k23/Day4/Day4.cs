@@ -7,11 +7,11 @@ public class Day4 : Utilities
         List<string> input = ReadInput();
         int sum = input
             .Select(line => line.Split(':')[1].Split('|'))
-            .Aggregate(0, (acc, s) => acc + GetPoints(-1 + s[0].Split(' ').Intersect(s[1].Split(' ')).Count(), acc));
+            .Aggregate(0, (acc, s) => acc + GetPoints(-1 + s[0].Split(' ').Intersect(s[1].Split(' ')).Count()));
         Console.WriteLine(sum);
     }
 
-    int GetPoints(int pointsCount, int acc)
+    int GetPoints(int pointsCount)
     {
         if (pointsCount is 0 or 1 or 2) return pointsCount;
         if (pointsCount > 2) return (int)Math.Pow(2, pointsCount - 1);
