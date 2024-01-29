@@ -80,10 +80,11 @@ public class Day5 : Utilities
         
         for(int i = 0; i<seeds.Count; i+=2)
         {
-            Console.WriteLine(i);
+            Console.WriteLine("Counting Seed: " + (i / 2 + 1));
             Int64 start = seeds[i];
-            Int64 seedRange = start + seeds[i + 1] - 1;
-            for (long j = start; j<=seedRange; j++)
+            Int64 seedRange = start + seeds[i + 1];
+            // for (long j = start; j<=seedRange; j++)
+            for (long j = start; j<seedRange; j++)
             {
                 Int64 currentValue = j;
                 foreach (var x in maps)
@@ -93,8 +94,8 @@ public class Day5 : Utilities
                         var (target, source, range) = (y[0], y[1], y[2]);
                         if (currentValue >= source && currentValue <= source + range)
                         {
-                            Int64 diff = currentValue - source;
-                            currentValue = target + diff;
+                            Int64 diff = source - target;
+                            currentValue -= diff;
                             break;
                         }
                     }
@@ -102,7 +103,6 @@ public class Day5 : Utilities
                 lowestValue = long.Min(lowestValue, currentValue);
             }
         }
-
         Console.WriteLine(lowestValue);
     }
     
