@@ -83,7 +83,6 @@ public class Day5 : Utilities
             Console.WriteLine("Counting Seed: " + (i / 2 + 1));
             Int64 start = seeds[i];
             Int64 seedRange = start + seeds[i + 1];
-            // for (long j = start; j<=seedRange; j++)
             for (long j = start; j<seedRange; j++)
             {
                 Int64 currentValue = j;
@@ -92,7 +91,7 @@ public class Day5 : Utilities
                     foreach (var y in x)
                     {
                         var (target, source, range) = (y[0], y[1], y[2]);
-                        if (currentValue >= source && currentValue <= source + range)
+                        if (currentValue >= source && currentValue < source + range )
                         {
                             Int64 diff = source - target;
                             currentValue -= diff;
@@ -100,7 +99,7 @@ public class Day5 : Utilities
                         }
                     }
                 }
-                lowestValue = long.Min(lowestValue, currentValue);
+                lowestValue = long.Min(lowestValue , currentValue);
             }
         }
         Console.WriteLine(lowestValue);

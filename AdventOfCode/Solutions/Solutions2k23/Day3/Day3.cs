@@ -63,7 +63,6 @@ public class Day3 : Utilities
 
     public void SolveTaskTwo()
     {
-        //To zostawione na później do przemyślenia jakiegoś sensownego rozwiązania
         int sum = 0;
         for(int i=0; i<_input.Count; i++)
         {
@@ -84,6 +83,7 @@ public class Day3 : Utilities
     {
         var numbers = new List<int>();
 
+        // ---- Sprawdzenie lewej strony od *
         string mergedNumber = "";
         for (int i = -1; y+i >= 0 && y+i < _input[x].Length && char.IsDigit(_input[x][y+i]); i--)
         {
@@ -91,6 +91,7 @@ public class Day3 : Utilities
         }
         if(mergedNumber.Length > 0) numbers.Add(Int32.Parse(mergedNumber));
 
+        // ---- Sprawdzenie prawej strony od *
         mergedNumber = "";
         for (int i = 1; y+i >= 0 && y+i < _input[x].Length && char.IsDigit(_input[x][y+i]); i++)
         {
@@ -98,9 +99,11 @@ public class Day3 : Utilities
         }
         if(mergedNumber.Length > 0) numbers.Add(Int32.Parse(mergedNumber));
 
+        // ---- Sprawdzenie górnej części (powyżej *)
         int leftPointer = 0;
         int rightPointer = 0;
         
+        // ---- Sprawdzenie części powyżej * "od środka"
         mergedNumber = "";
         if (x - 1 >= 0 && x - 1 < _input.Count && char.IsDigit(_input[x - 1][y]))
         {
@@ -117,6 +120,7 @@ public class Day3 : Utilities
         }
         if(mergedNumber.Length > 0) numbers.Add(Int32.Parse(mergedNumber));
         
+        // ---- sprawdzenie tego co zostało po prawej stronie
         mergedNumber = "";
         if (rightPointer + 1 < 2)
         {
@@ -126,7 +130,8 @@ public class Day3 : Utilities
             }
             if(mergedNumber.Length > 0) numbers.Add(Int32.Parse(mergedNumber));  
         }
-
+        
+        // ---- sprawdzenie tego co zostało po lewej stronie
         mergedNumber = "";
         if (leftPointer - 1 > -2)
         {
@@ -137,11 +142,11 @@ public class Day3 : Utilities
             if(mergedNumber.Length > 0) numbers.Add(Int32.Parse(mergedNumber));
         }
 
-
-        
+        // ---- Sprawdzenie dolnej części (powyżej *)
         leftPointer = 0;
         rightPointer = 0;
         
+        // ---- Sprawdzenie części ponizej * "od środka"
         mergedNumber = "";
         if (char.IsDigit(_input[x + 1][y]))
         {
@@ -158,6 +163,7 @@ public class Day3 : Utilities
         }
         if(mergedNumber.Length > 0) numbers.Add(Int32.Parse(mergedNumber));
         
+        // ---- sprawdzenie tego co zostało po prawej stronie
         mergedNumber = "";
         if (rightPointer + 1 < 2)
         {
@@ -168,7 +174,7 @@ public class Day3 : Utilities
             if(mergedNumber.Length > 0) numbers.Add(Int32.Parse(mergedNumber));
         }
 
-
+        // ---- sprawdzenie tego co zostało po lewej stronie
         mergedNumber = "";
         if (leftPointer - 1 > -2)
         {
