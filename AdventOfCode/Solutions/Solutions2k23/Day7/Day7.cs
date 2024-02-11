@@ -3,50 +3,114 @@ using System.Text.RegularExpressions;
 
 public class Day7 : Utilities
 {
+    private class Card
+    {
+        public string Hand;
+        public int Bid;
+        public int Power;
+
+        public Card(string hand, int bid, int power)
+        {
+            Hand = hand;
+            Bid = bid;
+            Power = power;
+        }
+    }
     public void SolveTaskOne()
     {
+        var cardsPower = new List<String> {"2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"};
         var input = ReadInput();
-        var parsedInput = input.Select(i => i.Split(" ").ToList()).ToList();
-        // parsedInput.Select(p => [...p, ""]);
-        // foreach (var strings in parsedInput)
-        // {
-        // }
-
-
-        // Punkt 2 - sortowanie
-        // Punkt 3 - ułożenie według mocy kolejnych kart i przypisanie odpowiedniej wagi 
-        // 1. calcPowerOfSet
-        // 2. orderByPower
-        // 3. ifNecessaryOrderByRuleOfSingleCardsPower
-        //parsedInput[0].
-        var cardsPower = new char[] {'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2', '1'};
-        //Power: A > K > Q > J > T > 9 > 8 > 7 > 6 > 5 > 4 > 3 > 2 > 1 
-
-
-        // 1. Dla forEach.parsedInput - dokleić dodatkowe, trecie pole z wagą (mapowanie)
-        // 2. Sort według trzeciego pola z wagą 
-        // 3.  
+        int iterator = 0;
+        var result = input.Select(i =>
+            {
+                var splittedString = i.Split(" ").ToList();
+                return new Card(splittedString[0], Int32.Parse(splittedString[1]), CheckHandType(splittedString[0]));
+            })
+            .GroupBy(c => c.Power)
+            .OrderBy(g => g.Key)
+            .SelectMany(c => c.OrderBy(card => card.Hand, new CardComparer(cardsPower)))
+            .Aggregate(0, (acc, card) =>
+            {
+                iterator++;
+                return acc + card.Bid * iterator;
+            });
+        
+        Console.WriteLine(result);
     }
     
-    private int CheckHandType(string hand)
+    class CardComparer : IComparer<string>
     {
-        string parsedHand = String.Concat(hand.OrderBy(c => c));
-        return hand switch
+        private readonly List<string> order;
+
+        public CardComparer(List<string> order)
         {
-            var str when Regex.IsMatch(parsedHand, @"(.)\1{4}") => 7, // 5 identycznych znaków
-            var str when Regex.IsMatch(parsedHand, @"(.)\1{3}") => 6, // 4 identyczne znaki
-            var str when Regex.IsMatch(parsedHand, @"(\w)\1.*(?:\1{2}|(\w)\2{2})") => 5, // 3 + 2 identyczne znaki
-            var str when Regex.IsMatch(parsedHand, @"(.)\1{2}") => 4, // 3 identyczne znaki
-            var str when Regex.IsMatch(parsedHand, @"(?:([a-zA-Z0-9])\1.*){2}") => 3, // 2 + 2 identyczne znaki
-            var str when Regex.IsMatch(parsedHand, @"(.)\1") => 2, // 2 identyczne znaki
-            var str when Regex.IsMatch(parsedHand, @"^(?!.*(.).*\1).*$") => 1, // 5 różnych znaków
-            _ => 0
-        };
+            this.order = order;
+        }
+
+        public int Compare(string x, string y)
+        {
+            int minLength = Math.Min(x.Length, y.Length);
+            for (int i = 0; i < minLength; i++)
+            {
+                int indexX = order.IndexOf(x[i].ToString());
+                int indexY = order.IndexOf(y[i].ToString());
+
+                if (indexX < indexY)
+                    return -1;
+                if (indexX > indexY)
+                    return 1;
+            }
+
+            return x.Length.CompareTo(y.Length);
+        }
+    }
+	
+	private int CheckHandType(string hand)
+    {
+        var counts = hand.GroupBy(x => x)
+            .ToDictionary(group => group.Key, group => group.Count());
+        // Five of a kind
+        if (counts.Count == 1)
+            return 7;
+        // Four of a kind
+        if (counts.ContainsValue(4))
+            return 6;
+        // Full house
+        if (counts.ContainsValue(2) && counts.ContainsValue(3))
+            return 5;
+        // Three of a kind
+        if (counts.ContainsValue(3))
+            return 4;
+        // Two pair
+        if (counts.Values.OrderBy(x => x).SequenceEqual(new List<int> { 1, 2, 2 }))
+            return 3;
+        // One pair
+        if (counts.ContainsValue(2))
+            return 2;
+        // High card
+        return 1;
     }
     
     public void SolveTaskTwo()
     {
+        var cardsPower = new List<String> {"J", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"};
         var input = ReadInput();
+        int iterator = 0;
+        var result = input.Select(i =>
+            {
+                var splittedString = i.Split(" ").ToList();
+                return new Card(splittedString[0], Int32.Parse(splittedString[1]), CheckHandType(splittedString[0]));
+            })
+            .GroupBy(c => c.Power)
+            .OrderBy(g => g.Key)
+            .SelectMany(c => c.OrderBy(card => card.Hand, new CardComparer(cardsPower)))
+            .Aggregate(0, (acc, card) =>
+            {
+                iterator++;
+                return acc + card.Bid * iterator;
+            });
+        
+        Console.WriteLine(result);
     }
     
     private List<string> ReadInput()
