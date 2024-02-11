@@ -69,6 +69,15 @@ public class Day7 : Utilities
     {
         var counts = hand.GroupBy(x => x)
             .ToDictionary(group => group.Key, group => group.Count());
+        
+        if (counts.Count != 1 && counts.ContainsKey('J'))
+        {
+            var maxKey = counts.Where(pair => pair.Key != 'J')
+                .Aggregate((x, y) => x.Value > y.Value ? x : y)
+                .Key;            counts[maxKey] += counts['J'];
+            counts.Remove('J');
+        }
+        
         // Five of a kind
         if (counts.Count == 1)
             return 7;
