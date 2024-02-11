@@ -24,7 +24,7 @@ public class Day7 : Utilities
         var result = input.Select(i =>
             {
                 var splittedString = i.Split(" ").ToList();
-                return new Card(splittedString[0], Int32.Parse(splittedString[1]), CheckHandType(splittedString[0]));
+                return new Card(splittedString[0], Int32.Parse(splittedString[1]), CheckHandType(splittedString[0], false));
             })
             .GroupBy(c => c.Power)
             .OrderBy(g => g.Key)
@@ -65,12 +65,12 @@ public class Day7 : Utilities
         }
     }
 	
-	private int CheckHandType(string hand)
+	private int CheckHandType(string hand, Boolean useJokers)
     {
         var counts = hand.GroupBy(x => x)
             .ToDictionary(group => group.Key, group => group.Count());
         
-        if (counts.Count != 1 && counts.ContainsKey('J'))
+        if (useJokers && counts.Count != 1 && counts.ContainsKey('J'))
         {
             var maxKey = counts.Where(pair => pair.Key != 'J')
                 .Aggregate((x, y) => x.Value > y.Value ? x : y)
@@ -108,7 +108,7 @@ public class Day7 : Utilities
         var result = input.Select(i =>
             {
                 var splittedString = i.Split(" ").ToList();
-                return new Card(splittedString[0], Int32.Parse(splittedString[1]), CheckHandType(splittedString[0]));
+                return new Card(splittedString[0], Int32.Parse(splittedString[1]), CheckHandType(splittedString[0], true));
             })
             .GroupBy(c => c.Power)
             .OrderBy(g => g.Key)
