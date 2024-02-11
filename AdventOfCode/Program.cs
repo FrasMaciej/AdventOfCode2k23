@@ -1,4 +1,4 @@
-﻿using AdventOfCode.Solutions.Solutions2k23.Day5;
+﻿using AdventOfCode.Solutions.Solutions2k23.Day7;
 
-var solution = new Day5();
-solution.SolveTaskTwo();
+var solution = new Day7();
+solution.SolveTaskOne();
