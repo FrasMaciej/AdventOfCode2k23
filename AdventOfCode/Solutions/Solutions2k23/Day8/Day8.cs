@@ -81,10 +81,10 @@ public class Day8 : Utilities
         }
 
         var valuesToCheck = allMoves.Select(m => Convert.ToInt64(m)).ToArray();
-        Console.WriteLine(FindLCM(valuesToCheck));
+        Console.WriteLine(FindLcm(valuesToCheck));
     }
     
-    long FindGCD(long a, long b)
+    long FindGcd(long a, long b)
     {
         while (b != 0)
         {
@@ -95,17 +95,17 @@ public class Day8 : Utilities
         return a;
     }
 
-    long FindLCM(long a, long b)
+    long FindLcm(long a, long b)
     {
-        return a * b / FindGCD(a, b);
+        return a * b / FindGcd(a, b);
     }
 
-    long FindLCM(long[] numbers)
+    long FindLcm(long[] numbers)
     {
         long lcm = numbers[0];
         for (int i = 1; i < numbers.Length; i++)
         {
-            lcm = FindLCM(lcm, numbers[i]);
+            lcm = FindLcm(lcm, numbers[i]);
         }
         return lcm;
     }
