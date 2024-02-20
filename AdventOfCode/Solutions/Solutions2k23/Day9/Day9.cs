@@ -2,22 +2,13 @@ namespace AdventOfCode.Solutions.Solutions2k23.Day9;
 
 public class Day9 : Utilities
 {
-    public void SolveTaskOne() => SolvePuzzle(false);
-    public void SolveTaskTwo() => SolvePuzzle(true);
+    public void SolveTaskOne() => Console.WriteLine(SolvePuzzle(false));
+    public void SolveTaskTwo() => Console.WriteLine(SolvePuzzle(true));
     
-    void SolvePuzzle(bool reversed)
-    {
-        var parsedInput = GetInputAsStringList("input_9_2k23.txt")
-            .Select(line => line.Split(" ").Select(int.Parse).ToList());
-        var sumOfExtrapolatedValues = parsedInput.Aggregate(0,
-            (acc, sequence) => acc + FindNextNumberInSequence(reversed ? sequence.AsEnumerable().Reverse().ToList() : sequence));
-        Console.WriteLine(sumOfExtrapolatedValues);
-    }
+    int SolvePuzzle(bool reversed) => GetInputAsStringList("input_9_2k23.txt")
+        .Select(line => line.Split(" ").Select(int.Parse).ToList())
+        .Aggregate(0, (acc, sequence) => acc + FindNextNum(reversed ? sequence.AsEnumerable().Reverse().ToList() : sequence));
     
-    int FindNextNumberInSequence(List<int> sequence)
-    {
-        if (sequence.All(o => o == 0)) return 0;
-        var newSequence = sequence.Zip(sequence.Skip(1), (current, next) => next - current).ToList();
-        return sequence.Last() + FindNextNumberInSequence(newSequence);
-    }
+    int FindNextNum(List<int> sequence) =>
+        sequence.All(o => o == 0) ? 0 : sequence.Last() + FindNextNum(sequence.Zip(sequence.Skip(1), (current, next) => next - current).ToList());
 }
