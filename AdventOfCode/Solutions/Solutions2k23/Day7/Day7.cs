@@ -18,7 +18,7 @@ public class Day7 : Utilities
     }
     public void SolveTaskOne()
     {
-        var cardsPower = new List<String> {"2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"};
+        var cardsPower = new List<String> { "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A" };
         var input = ReadInput();
         int iterator = 0;
         var result = input.Select(i =>
@@ -34,10 +34,10 @@ public class Day7 : Utilities
                 iterator++;
                 return acc + card.Bid * iterator;
             });
-        
+
         Console.WriteLine(result);
     }
-    
+
     class CardComparer : IComparer<string>
     {
         private readonly List<string> order;
@@ -47,7 +47,9 @@ public class Day7 : Utilities
             this.order = order;
         }
 
+#pragma warning disable CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
         public int Compare(string x, string y)
+#pragma warning restore CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
         {
             int minLength = Math.Min(x.Length, y.Length);
             for (int i = 0; i < minLength; i++)
@@ -64,20 +66,20 @@ public class Day7 : Utilities
             return x.Length.CompareTo(y.Length);
         }
     }
-	
-	private int CheckHandType(string hand, Boolean useJokers)
+
+    private int CheckHandType(string hand, Boolean useJokers)
     {
         var counts = hand.GroupBy(x => x)
             .ToDictionary(group => group.Key, group => group.Count());
-        
+
         if (useJokers && counts.Count != 1 && counts.ContainsKey('J'))
         {
             var maxKey = counts.Where(pair => pair.Key != 'J')
                 .Aggregate((x, y) => x.Value > y.Value ? x : y)
-                .Key;            counts[maxKey] += counts['J'];
+                .Key; counts[maxKey] += counts['J'];
             counts.Remove('J');
         }
-        
+
         // Five of a kind
         if (counts.Count == 1)
             return 7;
@@ -99,10 +101,10 @@ public class Day7 : Utilities
         // High card
         return 1;
     }
-    
+
     public void SolveTaskTwo()
     {
-        var cardsPower = new List<String> {"J", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"};
+        var cardsPower = new List<String> { "J", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A" };
         var input = ReadInput();
         int iterator = 0;
         var result = input.Select(i =>
@@ -118,10 +120,10 @@ public class Day7 : Utilities
                 iterator++;
                 return acc + card.Bid * iterator;
             });
-        
+
         Console.WriteLine(result);
     }
-    
+
     private List<string> ReadInput()
     {
         return GetInputAsStringList("input_7_2k23.txt");
